@@ -31,6 +31,8 @@
     displayManager.sddm.wayland.enable = true;
     displayManager.sddm.sugarCandyNix = {
       enable = true;
+
+      
 /*       settings = {
         # Set your configuration options here.
         # Here is a simple example:
