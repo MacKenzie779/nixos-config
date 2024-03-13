@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   imports = [ ./pipewire.nix
@@ -28,13 +28,13 @@
       variant = "";
       options = "caps:escape";
     };
+    displayManager.sddm.wayland.enable = true;
     displayManager.sddm.sugarCandyNix = {
       enable = true;
-      wayland.enable = true;
       settings = {
         # Set your configuration options here.
         # Here is a simple example:
-        Background = lib.cleanSource ./background.png;
+        Background = lib.cleanSource ./background.jpg;
         ScreenWidth = 1920;
         ScreenHeight = 1080;
         FormPosition = "left";

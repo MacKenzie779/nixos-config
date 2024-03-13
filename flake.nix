@@ -72,7 +72,7 @@
 			};
       overlays = [
         sddm-sugar-candy-nix.overlays.default
-      ]
+      ];
     };
 
 		# stable pkgs

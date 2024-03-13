@@ -306,24 +306,28 @@
         "hyprland-plugins": "hyprland-plugins",
         "nixpkgs": "nixpkgs",
         "nixpkgs-stable": "nixpkgs-stable",
-        "sddm-sugar-candy": "sddm-sugar-candy",
+        "sddm-sugar-candy-nix": "sddm-sugar-candy-nix",
         "stylix": "stylix"
       }
     },
-    "sddm-sugar-candy": {
-      "flake": false,
+    "sddm-sugar-candy-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
       "locked": {
-        "lastModified": 1689180314,
-        "narHash": "sha256-ayA4GfAUMtX07YoYHhHxnAFKH5El2blCUnTxxQCIHTI=",
-        "owner": "MacKenzie779",
-        "repo": "sddm-sugar-candy",
-        "rev": "82bd248db317781696bd8a4f3c8c51bc0c19ca74",
-        "type": "github"
+        "lastModified": 1710317034,
+        "narHash": "sha256-b3YKix+WeNTlWQ1lxFiASVe5T+vQBsRlaM+Xb0nOiK4=",
+        "owner": "Zhaith-Izaliel",
+        "repo": "sddm-sugar-candy-nix",
+        "rev": "fa3f23790563571dc9ecde88673c99eceab512f8",
+        "type": "gitlab"
       },
       "original": {
-        "owner": "MacKenzie779",
-        "repo": "sddm-sugar-candy",
-        "type": "github"
+        "owner": "Zhaith-Izaliel",
+        "repo": "sddm-sugar-candy-nix",
+        "type": "gitlab"
       }
     },
     "stylix": {
