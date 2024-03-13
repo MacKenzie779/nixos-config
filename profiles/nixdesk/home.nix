@@ -44,13 +44,11 @@
     texliveSmall
 
     # Media
-    gimp-with-plugins
+    gimp
     pinta
-    krita
     musikcube
     vlc
     yt-dlp
-    blender
     obs-studio
     kdenlive
     ffmpeg

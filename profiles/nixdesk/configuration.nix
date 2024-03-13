@@ -16,7 +16,7 @@
     ../../system/app/prismlauncher.nix
     ../../system/app/automount.nix # important for automounting devs like usb
     ../../system/app/virtualization.nix
-    ( import ../../system/app/docker.nix {storageDriver = "btrfs"; inherit userSettings lib;} )
+    #( import ../../system/app/docker.nix {storageDriver = "btrfs"; inherit userSettings lib;} )
     ../../system/style/stylix.nix
   ];
 
@@ -31,6 +31,8 @@
   # Networking
   networking.hostName = systemSettings.hostname; # Define your hostname.
   networking.networkmanager.enable = true; # Use networkmanager
+
+  security.polkit.enable = true;
 
   # Timezone and locale
   time.timeZone = systemSettings.timezone; # time zone
@@ -53,7 +55,7 @@
   users.users.${userSettings.username} = {
     isNormalUser = true;
     description = userSettings.name;
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "libvirtd" ];
     packages = [];
     uid = 1000;
   };
