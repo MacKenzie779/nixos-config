@@ -16,7 +16,7 @@
       #../../system/hardware/bluetooth.nix
       (./. + "../../../system/wm"+("/"+userSettings.wm)+".nix") # My window manager
       ../../system/app/prismlauncher.nix
-      #../../system/app/automount.nix
+      ../../system/app/automount.nix # important for automounting devs like usb
       #( import ../../system/app/docker.nix {storageDriver = "btrfs"; inherit userSettings lib;} )
       ../../system/style/stylix.nix
     ];
