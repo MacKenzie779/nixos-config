@@ -3,30 +3,22 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { pkgs, lib, systemSettings, userSettings, ... }:
-{
-  imports =
-    [ 
-      ./hardware-configuration.nix
-      ../../system/boot/systemdboot.nix
-      #../../system/hardware/systemd.nix # systemd config
-      ../../system/hardware/kernel.nix # Kernel config
-      #../../system/hardware/power.nix # Power management
-      ../../system/hardware/time.nix # Network time sync
-      ../../system/hardware/opengl.nix
-      #../../system/hardware/bluetooth.nix
-      (./. + "../../../system/wm"+("/"+userSettings.wm)+".nix") # My window manager
-      ../../system/app/prismlauncher.nix
-      ../../system/app/automount.nix # important for automounting devs like usb
-      #( import ../../system/app/docker.nix {storageDriver = "btrfs"; inherit userSettings lib;} )
-      ../../system/style/stylix.nix
-    ];
 
-  # Fix nix path
-  #nix.nixPath = [ 
-   # "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
-   # "nixos-config=$HOME/dotfiles/system/configuration.nix"
-   # "/nix/var/nix/profiles/per-user/root/channels"
-  #];
+{
+  imports = [ 
+    ./hardware-configuration.nix
+    ../../system/boot/systemdboot.nix
+    ../../system/hardware/kernel.nix # Kernel config
+    ../../system/hardware/time.nix # Network time sync
+    ../../system/hardware/opengl.nix
+    ../../system/hardware/bluetooth.nix
+    (./. + "../../../system/wm"+("/"+userSettings.wm)+".nix") # My window manager
+    ../../system/app/prismlauncher.nix
+    ../../system/app/automount.nix # important for automounting devs like usb
+    ../../system/app/virtualization.nix
+    ( import ../../system/app/docker.nix {storageDriver = "btrfs"; inherit userSettings lib;} )
+    ../../system/style/stylix.nix
+  ];
 
   # Ensure nix flakes are enabled
   nix.package = pkgs.nixFlakes;
@@ -35,14 +27,6 @@
   '';
 
   nixpkgs.config.allowUnfree = true;
-
-  # Bootloader
-  # Use systemd-boot if uefi, default to grub otherwise
-  #boot.loader.systemd-boot.enable = if (systemSettings.bootMode == "uefi") then true else false;
-  #boot.loader.efi.canTouchEfiVariables = if (systemSettings.bootMode == "uefi") then true else false;
-  #boot.loader.efi.efiSysMountPoint = systemSettings.bootMountPath; # does nothing if running bios rather than uefi
-  #boot.loader.grub.enable = if (systemSettings.bootMode == "uefi") then false else true;
-  #boot.loader.grub.device = systemSettings.grubDevice; # does nothing if running uefi rather than bios
 
   # Networking
   networking.hostName = systemSettings.hostname; # Define your hostname.
@@ -80,7 +64,6 @@
     wget
     zsh
     git
-    #cryptsetup
     home-manager
   ];
 
@@ -90,14 +73,6 @@
   programs.zsh.enable = true;
 
   fonts.fontDir.enable = true;
-
-  #xdg.portal = {
-   # enable = true;
-    #extraPortals = [
-     # pkgs.xdg-desktop-portal
-      #pkgs.xdg-desktop-portal-gtk
-  #  ];
-  #};
 
   # It is ok to leave this unchanged for compatibility purposes
   system.stateVersion = "22.11";

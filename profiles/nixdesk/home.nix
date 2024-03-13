@@ -8,22 +8,17 @@
   programs.home-manager.enable = true;
 
   imports = [
-	      stylix.homeManagerModules.stylix	
-              (./. + "../../../user/wm"+("/"+userSettings.wm+"/"+userSettings.wm)+".nix")
-              ../../user/shell/sh.nix # My zsh and bash config
-              ../../user/shell/cli-collection.nix # Useful CLI apps
-              ../../user/app/ranger/ranger.nix # My ranger file manager config
-              ../../user/app/git/git.nix # My git config
-              #../../user/app/keepass/keepass.nix # My password manager
-              (./. + "../../../user/app/browser"+("/"+userSettings.browser)+".nix") # My default browser selected from flake
-              #../../user/app/virtualization/virtualization.nix # Virtual machines
-              #../../user/app/flatpak/flatpak.nix # Flatpaks
-              ../../user/style/stylix.nix # Styling and themes for my apps
-              #../../user/lang/cc/cc.nix # C and C++ tools
-              #../../user/lang/godot/godot.nix # Game development
-              #../../user/pkgs/blockbench.nix # Blockbench ## marked as insecure
-              #../../user/hardware/bluetooth.nix # Bluetooth
-            ];
+	  stylix.homeManagerModules.stylix	
+    (./. + "../../../user/wm"+("/"+userSettings.wm+"/"+userSettings.wm)+".nix")
+    ../../user/shell/sh.nix # My zsh and bash config
+    ../../user/shell/cli-collection.nix # Useful CLI apps
+    ../../user/app/ranger/ranger.nix # My ranger file manager config
+    ../../user/app/git/git.nix # My git config
+    (./. + "../../../user/app/browser"+("/"+userSettings.browser)+".nix") # My default browser selected from flake
+    ../../user/app/virtualization/virtualization.nix # Virtual machines
+    ../../user/style/stylix.nix # Styling and themes for my apps
+    ../../user/hardware/bluetooth.nix # Bluetooth
+  ];
 
   home.stateVersion = "22.11"; # Please read the comment before changing.
 
@@ -31,65 +26,35 @@
     # Core
     zsh
     alacritty
-    #librewolf
     brave
-    #qutebrowser
     dmenu
     rofi
     git
     vscode
     discord
-    #syncthing
 
     # Office
-    #libreoffice-fresh
-    #mate.atril
-    #xournalpp
-    #glib
+    libreoffice-fresh
+    xournalpp
     newsflash
     gnome.nautilus
-    #gnome.gnome-calendar
-    #gnome.seahorse
-    #gnome.gnome-maps
-    #openvpn
+    gnome.gnome-calendar
+    openvpn
     #protonmail-bridge
-    #texliveSmall
-
-
+    texliveSmall
 
     # Media
-    #gimp-with-plugins
-    #pinta
-   # krita
-   # inkscape
-   # musikcube
-   # vlc
-   # mpv
-   # yt-dlp
-    #freetube
-   # blender
-    #blockbench-electron
-   # cura
-  #  obs-studio
-  #  kdenlive
-  #  ffmpeg
-   # (pkgs.writeScriptBin "kdenlive-accel" ''
-   #   #!/bin/sh
-   #   DRI_PRIME=0 kdenlive "$1"
-   # '')
-  #  movit
-  #  mediainfo
-  #  libmediainfo
-  #  mediainfo-gui
-  #  audio-recorder
-
-    # Various dev packages
-  #  texinfo
-  #  libffi zlib
-  #  nodePackages.ungit
+    gimp-with-plugins
+    pinta
+    krita
+    musikcube
+    vlc
+    yt-dlp
+    blender
+    obs-studio
+    kdenlive
+    ffmpeg
   ];
-
-  #services.syncthing.enable = true;
 
   xdg.enable = true;
   xdg.userDirs = {
