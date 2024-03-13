@@ -28,11 +28,21 @@
       variant = "";
       options = "caps:escape";
     };
-    displayManager.sddm = {
+    displayManager.sddm.sugarCandyNix = {
       enable = true;
       wayland.enable = true;
-      enableHidpi = true;
-      theme = "sddm-sugar-candy";
+      settings = {
+        # Set your configuration options here.
+        # Here is a simple example:
+        Background = lib.cleanSource ./background.png;
+        ScreenWidth = 1920;
+        ScreenHeight = 1080;
+        FormPosition = "left";
+        HaveFormBackground = true;
+        PartialBlur = true;
+        # ...
+      };
+
     };
   };
 }

@@ -17,12 +17,12 @@
 
     sddm-sugar-candy-nix = {
       url = "gitlab:Zhaith-Izaliel/sddm-sugar-candy-nix";
-      flake = false;
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
 	};
 
-	outputs = inputs@{ self, nixpkgs, nixpkgs-stable, home-manager, stylix, hyprland-plugins, sddm-sugar-candy, ... }:
+	outputs = inputs@{ self, nixpkgs, nixpkgs-stable, home-manager, stylix, hyprland-plugins, sddm-sugar-candy-nix, ... }:
   let
     
     systemSettings = {
@@ -70,6 +70,9 @@
 				allowUnfree = true;
 				allowUnfreePredicate = (_: true); 
 			};
+      overlays = [
+        sddm-sugar-candy-nix.overlays.default
+      ]
     };
 
 		# stable pkgs
@@ -118,6 +121,7 @@
         system = systemSettings.system;
         modules = [ 
 					(./. + "/profiles"+("/"+systemSettings.profile)+"/configuration.nix") 
+          sddm-sugar-candy-nix.nixosModules.default
 				]; # load configuration.nix from selected PROFILE
         specialArgs = {
           # pass config variables from above
