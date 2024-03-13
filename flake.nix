@@ -16,7 +16,7 @@
 		};
 
     sddm-sugar-candy-nix = {
-      url = "gitlab:Zhaith-Izaliel/sddm-sugar-candy-nix";
+      url = "github:MacKenzie779/sddm-sugar-candy-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

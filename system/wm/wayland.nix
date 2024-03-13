@@ -31,7 +31,7 @@
     displayManager.sddm.wayland.enable = true;
     displayManager.sddm.sugarCandyNix = {
       enable = true;
-      settings = {
+/*       settings = {
         # Set your configuration options here.
         # Here is a simple example:
         Background = lib.cleanSource ./background.jpg;
@@ -41,7 +41,7 @@
         HaveFormBackground = true;
         PartialBlur = true;
         # ...
-      };
+      }; */
 
     };
   };
