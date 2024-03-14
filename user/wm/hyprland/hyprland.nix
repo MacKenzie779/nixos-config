@@ -665,7 +665,7 @@
   };
 
   programs.rofi.enable = true;
-  programs.rofi.theme = "/home/${userSettings.username}/nixos-config/.config/rounded-nord.rasi";
+  programs.rofi.theme = "/home/${userSettings.username}/nixos-config/.config/rofi/rounded-nord-dark.rasi";
 
   programs.fuzzel.enable = true;
   programs.fuzzel.settings = {
