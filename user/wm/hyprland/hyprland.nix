@@ -7,9 +7,6 @@
     (import ../../app/dmenu-scripts/networkmanager-dmenu.nix {
       dmenu_command = "fuzzel -d"; inherit config lib pkgs;
     })
-    (import ./hyprprofiles/hyprprofiles.nix {
-      dmenuCmd = "fuzzel -d"; inherit config lib pkgs;
-    })
   ];
 
   gtk.cursorTheme = {
@@ -24,23 +21,11 @@
     settings = { };
     extraConfig = ''
       exec-once = dbus-update-activation-environment DISPLAY XAUTHORITY WAYLAND_DISPLAY
+      exec-once = pypr
       exec-once = hyprctl setcursor '' + config.gtk.cursorTheme.name + " " + builtins.toString config.gtk.cursorTheme.size + ''
-
-      #exec-once = hyprprofile Personal
-
-      #exec-once = pypr
-      #exec-once = ydotoold
-      #exec-once = STEAM_FRAME_FORCE_CLOSE=1 steam -silent
       exec-once = nm-applet
-      #exec-once = blueman-applet
-      #exec-once = GOMAXPROCS=1 syncthing --no-browser
-      #exec-once = protonmail-bridge --noninteractive
       exec-once = waybar
-      #exec-once = emacs --daemon
-
-      exec-once = swayidle -w timeout 90 '${config.programs.swaylock.package}/bin/swaylock -f' timeout 210 'suspend-unless-render' resume '${pkgs.hyprland}/bin/hyprctl dispatch dpms on' before-sleep "${config.programs.swaylock.package}/bin/swaylock -f"
-      exec-once = obs-notification-mute-daemon
-
+      exec-once = swayidle -w timeout 900 '${config.programs.swaylock.package}/bin/swaylock -f' timeout 2000 'suspend-unless-render' resume '${pkgs.hyprland}/bin/hyprctl dispatch dpms on' before-sleep "${config.programs.swaylock.package}/bin/swaylock -f"
       exec = ~/.swaybg-stylix
 
       general {
@@ -48,35 +33,28 @@
         cursor_inactive_timeout = 30
         border_size = 4
         no_cursor_warps = false
-        col.active_border = 0xff'' + config.lib.stylix.colors.base08 + ''
-
+        col.active_border = 0xff'' + config.lib.stylix.colors.base0C + ''
+        #required space, to fix coloring
         col.inactive_border = 0x33'' + config.lib.stylix.colors.base00 + ''
+        #required space, to fix coloring
+        resize_on_border = true
+        gaps_in = 7
+        gaps_out = 7
+      }
 
-            resize_on_border = true
-            gaps_in = 7
-            gaps_out = 7
-       }
+      #move window focus
 
-       #plugin {
-       #  hyprbars {
-       #    bar_height = 0
-       #    bar_color = 0xee''+ config.lib.stylix.colors.base00 + ''
+       bind=SUPER,LEFT,movefocus,l
+       bind=SUPER,RIGHT,movefocus,r
+       bind=SUPER,UP,movefocus,u
+       bind=SUPER,DOWN,movefocus,d
+       bind=SUPER,h,movefocus,l
+       bind=SUPER,l,movefocus,r
+       bind=SUPER,k,movefocus,u
+       bind=SUPER,j,movefocus,d
 
-       #    col.text = 0xff''+ config.lib.stylix.colors.base05 + ''
+       bind=SUPER,D,exec,rofi
 
-       #    bar_text_font = '' + userSettings.font + ''
-
-       #    bar_text_size = 12
-
-       #    buttons {
-       #      button_size = 0
-       #      col.maximize = 0xff''+ config.lib.stylix.colors.base0A +''
-
-       #      col.close = 0xff''+ config.lib.stylix.colors.base08 +''
-
-       #    }
-       #  }
-       #}
        bind=SUPER,S,exec,hyprshot -m region --clipboard-only
        bind=SUPER,SPACE,fullscreen,1
        bind=SUPERSHIFT,F,fullscreen,0
@@ -86,16 +64,11 @@
        bind=ALTSHIFT,TAB,cyclenext,prev
        bind=ALTSHIFT,TAB,bringactivetotop
        bind=SUPER,V,exec,wl-copy $(wl-paste | tr '\n' ' ')
-       bind=SUPERSHIFT,T,exec,screenshot-ocr
-
-       bind = SUPER,R,pass,^(com\.obsproject\.Studio)$
-       bind = SUPERSHIFT,R,pass,^(com\.obsproject\.Studio)$
 
        bind=SUPER,RETURN,exec,'' + userSettings.term + ''
 
        bind=SUPER,A,exec,'' + userSettings.spawnEditor + ''
 
-       #bind=SUPER,S,exec,'' + userSettings.browser + ''
 
        bind=SUPERCTRL,S,exec,container-open # qutebrowser only
 
@@ -134,15 +107,7 @@
        bind=SUPERSHIFT,S,exec,swaylock --grace 0 & sleep 1 && systemctl suspend
        bind=SUPERCTRL,L,exec,swaylock --grace 0
 
-       bind=SUPER,H,movefocus,l
-       bind=SUPER,J,movefocus,d
-       bind=SUPER,K,movefocus,u
-       bind=SUPER,L,movefocus,r
 
-       bind=SUPERSHIFT,H,movewindow,l
-       bind=SUPERSHIFT,J,movewindow,d
-       bind=SUPERSHIFT,K,movewindow,u
-       bind=SUPERSHIFT,L,movewindow,r
 
        bind=SUPER,1,exec,hyprworkspace 1
        bind=SUPER,2,exec,hyprworkspace 2
@@ -218,15 +183,6 @@
        bind=SUPER,P,exec,keepmenu
        bind=SUPERSHIFT,P,exec,hyprprofile-dmenu
 
-       # 3 monitor setup
-       monitor=eDP-1,1920x1080,1000x1080,1
-       monitor=HDMI-A-1,1920x1080,1920x0,1
-       monitor=DP-1,1920x1080,0x0,1
-
-       # 2 monitor setup
-       #monitor=eDP-1,1920x1080,1920x0,1
-       #monitor=DP-1,1920x1200,0x0,1
-
        xwayland {
          force_zero_scaling = true
        }
@@ -237,7 +193,6 @@
        input {
          kb_layout = de
          numlock_by_default = true
-        # kb_options = caps:escape
          repeat_delay = 350
          repeat_rate = 50
          accel_profile = adaptive
