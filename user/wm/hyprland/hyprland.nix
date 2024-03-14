@@ -26,17 +26,17 @@
       exec-once = dbus-update-activation-environment DISPLAY XAUTHORITY WAYLAND_DISPLAY
       exec-once = hyprctl setcursor '' + config.gtk.cursorTheme.name + " " + builtins.toString config.gtk.cursorTheme.size + ''
 
-      exec-once = hyprprofile Personal
+      #exec-once = hyprprofile Personal
 
-      exec-once = pypr
-      exec-once = ydotoold
-      exec-once = STEAM_FRAME_FORCE_CLOSE=1 steam -silent
+      #exec-once = pypr
+      #exec-once = ydotoold
+      #exec-once = STEAM_FRAME_FORCE_CLOSE=1 steam -silent
       exec-once = nm-applet
-      exec-once = blueman-applet
-      exec-once = GOMAXPROCS=1 syncthing --no-browser
-      exec-once = protonmail-bridge --noninteractive
+      #exec-once = blueman-applet
+      #exec-once = GOMAXPROCS=1 syncthing --no-browser
+      #exec-once = protonmail-bridge --noninteractive
       exec-once = waybar
-      exec-once = emacs --daemon
+      #exec-once = emacs --daemon
 
       exec-once = swayidle -w timeout 90 '${config.programs.swaylock.package}/bin/swaylock -f' timeout 210 'suspend-unless-render' resume '${pkgs.hyprland}/bin/hyprctl dispatch dpms on' before-sleep "${config.programs.swaylock.package}/bin/swaylock -f"
       exec-once = obs-notification-mute-daemon
@@ -236,6 +236,7 @@
 
        input {
          kb_layout = de
+         numlock_by_default = true
         # kb_options = caps:escape
          repeat_delay = 350
          repeat_rate = 50

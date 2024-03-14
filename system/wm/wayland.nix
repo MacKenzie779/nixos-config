@@ -11,9 +11,7 @@
   services.xserver = {
     enable = true;
     xkb = {
-      layout = "us";
-      variant = "";
-      options = "caps:escape";
+      layout = "de";
     };
     displayManager.sddm.wayland.enable = true;
     displayManager.sddm.sugarCandyNix = {
