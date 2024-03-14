@@ -8,6 +8,7 @@
   programs.home-manager.enable = true;
 
   imports = [
+    
 	  stylix.homeManagerModules.stylix	
     (./. + "../../../user/wm"+("/"+userSettings.wm+"/"+userSettings.wm)+".nix")
     ../../user/shell/sh.nix # My zsh and bash config

@@ -12,7 +12,7 @@
   gtk.cursorTheme = {
     package = pkgs.quintom-cursor-theme;
     name = if (config.stylix.polarity == "light") then "Quintom_Ink" else "Quintom_Snow";
-    size = 30;
+    size = 24;
   };
 
   wayland.windowManager.hyprland = {
@@ -25,7 +25,7 @@
       exec-once = hyprctl setcursor '' + config.gtk.cursorTheme.name + " " + builtins.toString config.gtk.cursorTheme.size + ''
       exec-once = nm-applet
       exec-once = waybar
-      exec-once = swayidle -w timeout 900 '${config.programs.swaylock.package}/bin/swaylock -f' timeout 2000 'suspend-unless-render' resume '${pkgs.hyprland}/bin/hyprctl dispatch dpms on' before-sleep "${config.programs.swaylock.package}/bin/swaylock -f"
+      exec-once = swayidle -w timeout 900 '${config.programs.swaylock.package}/bin/swaylock -f' timeout 1800 'suspend-unless-render' resume '${pkgs.hyprland}/bin/hyprctl dispatch dpms on' before-sleep "${config.programs.swaylock.package}/bin/swaylock -f"
       exec = ~/.swaybg-stylix
 
       general {
@@ -170,7 +170,7 @@
       bind=SUPER,C,exec,wl-copy $(hyprpicker)
 
       bind=SUPERSHIFT,S,exec,swaylock --grace 0 & sleep 1 && systemctl suspend
-      bind=SUPERCTRL,L,exec,swaylock --grace 0
+      bind=SUPERCTRL,L,exec,swaylock
 
       #toggle floating windows
       bind=SUPER,Z,exec,pypr toggle term && hyprctl dispatch bringactivetotop
@@ -384,25 +384,7 @@
           "on-click" = "activate";
           "on-scroll-up" = "hyprctl dispatch workspace e+1";
           "on-scroll-down" = "hyprctl dispatch workspace e-1";
-          #"all-outputs" = true;
-          #"active-only" = true;
           "ignore-workspaces" = ["scratch" "-"];
-          #"show-special" = false;
-          #"persistent-workspaces" = {
-          #    # this block doesn't seem to work for whatever reason
-          #    "eDP-1" = [1 2 3 4 5 6 7 8 9];
-          #    "DP-1" = [1 2 3 4 5 6 7 8 9];
-          #    "HDMI-A-1" = [1 2 3 4 5 6 7 8 9];
-          #    "1" = ["eDP-1" "DP-1" "HDMI-A-1"];
-          #    "2" = ["eDP-1" "DP-1" "HDMI-A-1"];
-          #    "3" = ["eDP-1" "DP-1" "HDMI-A-1"];
-          #    "4" = ["eDP-1" "DP-1" "HDMI-A-1"];
-          #    "5" = ["eDP-1" "DP-1" "HDMI-A-1"];
-          #    "6" = ["eDP-1" "DP-1" "HDMI-A-1"];
-          #    "7" = ["eDP-1" "DP-1" "HDMI-A-1"];
-          #    "8" = ["eDP-1" "DP-1" "HDMI-A-1"];
-          #    "9" = ["eDP-1" "DP-1" "HDMI-A-1"];
-          #};
         };
 
         "idle_inhibitor" = {
@@ -646,45 +628,45 @@
       }
       '';
   };
-  home.file.".config/gtklock/style.css".text = ''
-    window {
-      background-image: url("''+config.stylix.image+''");
-      background-size: auto 100%;
-    }
-  '';
+
   services.udiskie.enable = true;
   services.udiskie.tray = "always";
   programs.swaylock = {
     enable = true;
     package = pkgs.swaylock-effects;
     settings = {
+      clock = true;
+      indicator = true;
+      screenshots = true;
+      indicator-radius = 100;
+      indicator-thickness = 7;
+      effect-blur = "10x10";
       color = "#"+config.lib.stylix.colors.base00;
-      inside-color = "#"+config.lib.stylix.colors.base00+"cc";
+      inside-color = "#"+config.lib.stylix.colors.base00;
+      line-color = "#"+config.lib.stylix.colors.base0C;
+      ring-color = "#"+config.lib.stylix.colors.base0C;
+      text-color = "#"+config.lib.stylix.colors.base08;
+      grace = 5;
       inside-caps-lock-color = "#"+config.lib.stylix.colors.base09;
       inside-clear-color = "#"+config.lib.stylix.colors.base0A;
       inside-wrong-color = "#"+config.lib.stylix.colors.base08;
       inside-ver-color = "#"+config.lib.stylix.colors.base0D;
-      line-color = "#"+config.lib.stylix.colors.base00;
       line-caps-lock-color = "#"+config.lib.stylix.colors.base00;
       line-clear-color = "#"+config.lib.stylix.colors.base00;
       line-wrong-color = "#"+config.lib.stylix.colors.base00;
       line-ver-color = "#"+config.lib.stylix.colors.base00;
-      ring-color = "#"+config.lib.stylix.colors.base00;
       ring-caps-lock-color = "#"+config.lib.stylix.colors.base09;
       ring-clear-color = "#"+config.lib.stylix.colors.base0A;
       ring-wrong-color = "#"+config.lib.stylix.colors.base08;
       ring-ver-color = "#"+config.lib.stylix.colors.base0D;
-      text-color = "#"+config.lib.stylix.colors.base00;
       key-hl-color = "#"+config.lib.stylix.colors.base0B;
       font = config.stylix.fonts.monospace.name;
-      font-size = 20;
-      fade-in = 0.5;
-      grace = 5;
-      indicator-radius = 100;
-      screenshots = true;
-      effect-blur = "10x10";
     };
   };
+
+  programs.rofi.enable = true;
+  programs.rofi.theme = "/home/${userSettings.username}/nixos-config/.config/rounded-nord.rasi";
+
   programs.fuzzel.enable = true;
   programs.fuzzel.settings = {
     main = {
