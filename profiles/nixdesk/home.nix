@@ -52,6 +52,7 @@
     obs-studio
     kdenlive
     ffmpeg
+    spotify
   ];
 
   xdg.enable = true;

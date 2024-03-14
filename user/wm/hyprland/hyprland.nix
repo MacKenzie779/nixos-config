@@ -12,7 +12,7 @@
   gtk.cursorTheme = {
     package = pkgs.quintom-cursor-theme;
     name = if (config.stylix.polarity == "light") then "Quintom_Ink" else "Quintom_Snow";
-    size = 36;
+    size = 30;
   };
 
   wayland.windowManager.hyprland = {
@@ -42,178 +42,167 @@
         gaps_out = 7
       }
 
+      xwayland {
+        force_zero_scaling = true
+      }
+
+      #env = WLR_DRM_DEVICES,/dev/dri/card1:/dev/dri/card0
+      #env = QT_QPA_PLATFORMTHEME,qt5ct
+
+      input {
+        kb_layout = de
+        numlock_by_default = true
+        repeat_delay = 350
+        repeat_rate = 50
+        accel_profile = adaptive
+        follow_mouse = 2
+      }
+
+      misc {
+        mouse_move_enables_dpms = false
+      }
+
+      decoration {
+        rounding = 8
+         blur {
+          enabled = true
+          size = 5
+          passes = 2
+          ignore_opacity = true
+          contrast = 1.17
+          brightness = 0.8
+        }
+      }
+
       #move window focus
 
-       bind=SUPER,LEFT,movefocus,l
-       bind=SUPER,RIGHT,movefocus,r
-       bind=SUPER,UP,movefocus,u
-       bind=SUPER,DOWN,movefocus,d
-       bind=SUPER,h,movefocus,l
-       bind=SUPER,l,movefocus,r
-       bind=SUPER,k,movefocus,u
-       bind=SUPER,j,movefocus,d
+      bind=SUPER,LEFT,movefocus,l
+      bind=SUPER,DOWN,movefocus,d
+      bind=SUPER,UP,movefocus,u
+      bind=SUPER,RIGHT,movefocus,r
 
-       bind=SUPER,D,exec,rofi
+      bind=SUPER,H,movefocus,l
+      bind=SUPER,J,movefocus,d
+      bind=SUPER,K,movefocus,u
+      bind=SUPER,L,movefocus,r
 
-       bind=SUPER,S,exec,hyprshot -m region --clipboard-only
-       bind=SUPER,SPACE,fullscreen,1
-       bind=SUPERSHIFT,F,fullscreen,0
-       bind=SUPER,Y,workspaceopt,allfloat
-       bind=ALT,TAB,cyclenext
-       bind=ALT,TAB,bringactivetotop
-       bind=ALTSHIFT,TAB,cyclenext,prev
-       bind=ALTSHIFT,TAB,bringactivetotop
-       bind=SUPER,V,exec,wl-copy $(wl-paste | tr '\n' ' ')
+      #move window inside workspace
 
-       bind=SUPER,RETURN,exec,'' + userSettings.term + ''
+      bind=SUPERSHIFT,LEFT,movewindow,l
+      bind=SUPERSHIFT,DOWN,movewindow,d
+      bind=SUPERSHIFT,UP,movewindow,u
+      bind=SUPERSHIFT,RIGHT,movewindow,r
 
-       bind=SUPER,A,exec,'' + userSettings.spawnEditor + ''
+      bind=SUPERSHIFT,H,movewindow,l
+      bind=SUPERSHIFT,J,movewindow,d
+      bind=SUPERSHIFT,K,movewindow,u
+      bind=SUPERSHIFT,L,movewindow,r
 
+      #switch workspace
 
-       bind=SUPERCTRL,S,exec,container-open # qutebrowser only
+      bind=SUPER,1,exec,hyprworkspace 1
+      bind=SUPER,2,exec,hyprworkspace 2
+      bind=SUPER,3,exec,hyprworkspace 3
+      bind=SUPER,4,exec,hyprworkspace 4
+      bind=SUPER,5,exec,hyprworkspace 5
+      bind=SUPER,6,exec,hyprworkspace 6
+      bind=SUPER,7,exec,hyprworkspace 7
+      bind=SUPER,8,exec,hyprworkspace 8
+      bind=SUPER,9,exec,hyprworkspace 9
 
-       bind=SUPERCTRL,R,exec,killall .waybar-wrapped && waybar & disown
+      #move window to another workspace&switch
 
-       bind=SUPER,R,exec,fuzzel
-       bind=SUPER,X,exec,fnottctl dismiss
-       bind=SUPERSHIFT,X,exec,fnottctl dismiss all
-       bind=SUPER,Q,killactive
-       bind=SUPERSHIFT,Q,exit
-       bindm=SUPER,mouse:272,movewindow
-       bindm=SUPER,mouse:273,resizewindow
-       bind=SUPER,T,togglefloating
-       bind=SUPER,G,exec,hyprworkspace 9; pegasus-fe;
+      bind=SUPERSHIFT,1,movetoworkspace,1
+      bind=SUPERSHIFT,2,movetoworkspace,2
+      bind=SUPERSHIFT,3,movetoworkspace,3
+      bind=SUPERSHIFT,4,movetoworkspace,4
+      bind=SUPERSHIFT,5,movetoworkspace,5
+      bind=SUPERSHIFT,6,movetoworkspace,6
+      bind=SUPERSHIFT,7,movetoworkspace,7
+      bind=SUPERSHIFT,8,movetoworkspace,8
+      bind=SUPERSHIFT,9,movetoworkspace,9
 
-       bind=,code:107,exec,grim -g "$(slurp)"
-       bind=SHIFT,code:107,exec,grim -g "$(slurp -o)"
-       bind=SUPER,code:107,exec,grim
-       bind=CTRL,code:107,exec,grim -g "$(slurp)" - | wl-copy
-       bind=SHIFTCTRL,code:107,exec,grim -g "$(slurp -o)" - | wl-copy
-       bind=SUPERCTRL,code:107,exec,grim - | wl-copy
+      bind=SUPERSHIFT,F,fullscreen,0
 
-       bind=,code:122,exec,pamixer -d 10
-       bind=,code:123,exec,pamixer -i 10
-       bind=,code:121,exec,pamixer -t
-       bind=,code:256,exec,pamixer --default-source -t
-       bind=SHIFT,code:122,exec,pamixer --default-source -d 10
-       bind=SHIFT,code:123,exec,pamixer --default-source -i 10
-       bind=,code:232,exec,brightnessctl set 15-
-       bind=,code:233,exec,brightnessctl set +15
-       bind=,code:237,exec,brightnessctl --device='asus::kbd_backlight' set 1-
-       bind=,code:238,exec,brightnessctl --device='asus::kbd_backlight' set +1
-       bind=,code:255,exec,airplane-mode
-       bind=SUPER,C,exec,wl-copy $(hyprpicker)
+      bind=SUPER,D,exec,rofi -modi run -show run
+      bind=SUPER,E,exec,nautilus
 
-       bind=SUPERSHIFT,S,exec,swaylock --grace 0 & sleep 1 && systemctl suspend
-       bind=SUPERCTRL,L,exec,swaylock --grace 0
+      bind=SUPER,S,exec,hyprshot -m region --clipboard-only
 
+      bind=ALT,TAB,cyclenext
+      bind=ALTSHIFT,TAB,cyclenext,prev
 
+      bind=SUPER,RETURN,exec,'' + userSettings.term + ''
 
-       bind=SUPER,1,exec,hyprworkspace 1
-       bind=SUPER,2,exec,hyprworkspace 2
-       bind=SUPER,3,exec,hyprworkspace 3
-       bind=SUPER,4,exec,hyprworkspace 4
-       bind=SUPER,5,exec,hyprworkspace 5
-       bind=SUPER,6,exec,hyprworkspace 6
-       bind=SUPER,7,exec,hyprworkspace 7
-       bind=SUPER,8,exec,hyprworkspace 8
-       bind=SUPER,9,exec,hyprworkspace 9
+      bind=SUPER,A,exec,'' + userSettings.spawnEditor + ''
 
-       bind=SUPERSHIFT,1,movetoworkspace,1
-       bind=SUPERSHIFT,2,movetoworkspace,2
-       bind=SUPERSHIFT,3,movetoworkspace,3
-       bind=SUPERSHIFT,4,movetoworkspace,4
-       bind=SUPERSHIFT,5,movetoworkspace,5
-       bind=SUPERSHIFT,6,movetoworkspace,6
-       bind=SUPERSHIFT,7,movetoworkspace,7
-       bind=SUPERSHIFT,8,movetoworkspace,8
-       bind=SUPERSHIFT,9,movetoworkspace,9
+      bind=SUPERCTRL,R,exec,killall .waybar-wrapped && waybar & disown
 
-       bind=SUPER,Z,exec,pypr toggle term && hyprctl dispatch bringactivetotop
-       bind=SUPER,F,exec,pypr toggle ranger && hyprctl dispatch bringactivetotop
-       bind=SUPER,N,exec,pypr toggle musikcube && hyprctl dispatch bringactivetotop
-       bind=SUPER,B,exec,pypr toggle btm && hyprctl dispatch bringactivetotop
-       bind=SUPER,E,exec,pypr toggle geary && hyprctl dispatch bringactivetotop
-       bind=SUPER,code:172,exec,pypr toggle pavucontrol && hyprctl dispatch bringactivetotop
-       $scratchpadsize = size 80% 85%
+      #bind=SUPER,R,exec,fuzzel
 
-       $scratchpad = class:^(scratchpad)$
-       windowrulev2 = float,$scratchpad
-       windowrulev2 = $scratchpadsize,$scratchpad
-       windowrulev2 = workspace special silent,$scratchpad
-       windowrulev2 = center,$scratchpad
+      #dismiss desktop messages
+      bind=SUPER,X,exec,fnottctl dismiss
+      bind=SUPERSHIFT,X,exec,fnottctl dismiss all
 
-       $gearyscratchpad = class:^(geary)$
-       windowrulev2 = float,$gearyscratchpad
-       windowrulev2 = $scratchpadsize,$gearyscratchpad
-       windowrulev2 = workspace special silent,$gearyscratchpad
-       windowrulev2 = center,$gearyscratchpad
+      #close active window
+      bind=SUPER,Q,killactive
 
-       $pavucontrol = class:^(pavucontrol)$
-       windowrulev2 = float,$pavucontrol
-       windowrulev2 = size 86% 40%,$pavucontrol
-       windowrulev2 = move 50% 6%,$pavucontrol
-       windowrulev2 = workspace special silent,$pavucontrol
-       windowrulev2 = opacity 0.80,$pavucontrol
+      #exit to sddm 
+      bind=SUPERSHIFT,Q,exit
 
-       windowrulev2 = float,title:^(Kdenlive)$
+      #floating and moving windows with the mouse
+      bindm=SUPER,mouse:272,movewindow
+      bindm=SUPER,mouse:273,resizewindow
+      bind=SUPER,T,togglefloating
+      bind=SUPER,Y,workspaceopt,allfloat
 
-       windowrulev2 = float,class:^(pokefinder)$
+      bind=SUPER,O,exec,pamixer -d 10
+      bind=SUPER,I,exec,pamixer -i 10
+      #bind=,code:121,exec,pamixer -t
+      #bind=,code:256,exec,pamixer --default-source -t
+      #bind=SHIFT,code:122,exec,pamixer --default-source -d 10
+      #bind=SHIFT,code:123,exec,pamixer --default-source -i 10
+      bind=SUPER,N,exec,brightnessctl set 15-
+      bind=SUPER,M,exec,brightnessctl set +15
+      #bind=,code:237,exec,brightnessctl --device='asus::kbd_backlight' set 1-
+      #bind=,code:238,exec,brightnessctl --device='asus::kbd_backlight' set +1
 
-       windowrulev2 = opacity 0.85,$gearyscratchpad
-       windowrulev2 = opacity 0.80,title:ORUI
-       windowrulev2 = opacity 0.80,title:Heimdall
-       windowrulev2 = opacity 0.80,title:^(LibreWolf)$
-       windowrulev2 = opacity 0.80,title:^(New Tab - LibreWolf)$
-       windowrulev2 = opacity 0.80,title:^(New Tab - Brave)$
-       windowrulev2 = opacity 0.75,title:^(My Local Dashboard Awesome Homepage - qutebrowser)$
-       windowrulev2 = opacity 0.75,title:\[.*\] - My Local Dashboard Awesome Homepage
-       windowrulev2 = opacity 0.9,class:^(org.keepassxc.KeePassXC)$
-       windowrulev2 = opacity 0.75,class:^(org.gnome.Nautilus)$
+      bind=SUPER,C,exec,wl-copy $(hyprpicker)
 
-       layerrule = blur,waybar
+      bind=SUPERSHIFT,S,exec,swaylock --grace 0 & sleep 1 && systemctl suspend
+      bind=SUPERCTRL,L,exec,swaylock --grace 0
 
-       bind=SUPER,code:21,exec,pypr zoom
-       bind=SUPER,code:21,exec,hyprctl reload
+      #toggle floating windows
+      bind=SUPER,Z,exec,pypr toggle term && hyprctl dispatch bringactivetotop
+      bind=SUPER,F,exec,pypr toggle ranger && hyprctl dispatch bringactivetotop
+      bind=SUPER,B,exec,pypr toggle btm && hyprctl dispatch bringactivetotop
+      bind=SUPER,P,exec,pypr toggle pavucontrol && hyprctl dispatch bringactivetotop
+       
+      $scratchpadsize = size 80% 85%
 
-       bind=SUPERCTRL,right,workspace,+1
-       bind=SUPERCTRL,left,workspace,-1
+      $scratchpad = class:^(scratchpad)$
+      windowrulev2 = float,$scratchpad
+      windowrulev2 = $scratchpadsize,$scratchpad
+      windowrulev2 = workspace special silent,$scratchpad
+      windowrulev2 = center,$scratchpad
 
-       bind=SUPER,I,exec,networkmanager_dmenu
-       bind=SUPER,P,exec,keepmenu
-       bind=SUPERSHIFT,P,exec,hyprprofile-dmenu
+      $pavucontrol = class:^(pavucontrol)$
+      windowrulev2 = float,$pavucontrol
+      windowrulev2 = size 86% 40%,$pavucontrol
+      windowrulev2 = move 50% 6%,$pavucontrol
+      windowrulev2 = workspace special silent,$pavucontrol
+      windowrulev2 = opacity 0.80,$pavucontrol
 
-       xwayland {
-         force_zero_scaling = true
-       }
+      windowrulev2 = opacity 0.80,title:^(New Tab - Brave)$
+      windowrulev2 = opacity 0.75,class:^(org.gnome.Nautilus)$
 
-       env = WLR_DRM_DEVICES,/dev/dri/card1:/dev/dri/card0
-       env = QT_QPA_PLATFORMTHEME,qt5ct
+      layerrule = blur,waybar
 
-       input {
-         kb_layout = de
-         numlock_by_default = true
-         repeat_delay = 350
-         repeat_rate = 50
-         accel_profile = adaptive
-         follow_mouse = 2
-       }
+      bind=SUPER,U,exec,pypr zoom
+      bind=SUPER,R,exec,hyprctl reload
+      bind=SUPER,W,exec,toggleWlsunset
 
-       misc {
-         mouse_move_enables_dpms = false
-       }
-       decoration {
-         rounding = 8
-         blur {
-           enabled = true
-           size = 5
-           passes = 2
-           ignore_opacity = true
-           contrast = 1.17
-           brightness = 0.8
-         }
-       }
-
+      bind=SUPERSHIFT,I,exec,networkmanager_dmenu
     '';
     xwayland = { enable = true; };
     systemd.enable = true;
@@ -225,12 +214,10 @@
     feh
     killall
     polkit_gnome
-    libva-utils
     gsettings-desktop-schemas
     gnome.zenity
     wlr-randr
     wtype
-    ydotool
     wl-clipboard
     hyprland-protocols
     hyprpicker
@@ -239,7 +226,6 @@
     swaybg
     fnott
     fuzzel
-    keepmenu
     wev
     grim
     slurp
@@ -252,40 +238,14 @@
     wlsunset
     pavucontrol
     pamixer
-    tesseract4
-    (pkgs.writeScriptBin "screenshot-ocr" ''
+
+    (pkgs.writeScriptBin "toggleWlsunset" ''
       #!/bin/sh
-      imgname="/tmp/screenshot-ocr-$(date +%Y%m%d%H%M%S).png"
-      txtname="/tmp/screenshot-ocr-$(date +%Y%m%d%H%M%S)"
-      txtfname="/tmp/screenshot-ocr-$(date +%Y%m%d%H%M%S).txt"
-      grim -g "$(slurp)" $imgname;
-      tesseract $imgname $txtname;
-      wl-copy -n < $txtfname
-    '')
-    (pkgs.writeScriptBin "sct" ''
-      #!/bin/sh
-      killall wlsunset &> /dev/null;
-      if [ $# -eq 1 ]; then
-        temphigh=$(( $1 + 1 ))
-        templow=$1
-        wlsunset -t $templow -T $temphigh &> /dev/null &
+      if pidof wlsunset; then
+        killall -9 wlsunset
       else
-        killall wlsunset &> /dev/null;
+        wlsunset
       fi
-    '')
-    (pkgs.writeScriptBin "obs-notification-mute-daemon" ''
-      #!/bin/sh
-      while true; do
-        if pgrep -x .obs-wrapped > /dev/null;
-          then
-            pkill -STOP fnott;
-            #emacsclient --eval "(org-yaap-mode 0)";
-          else
-            pkill -CONT fnott;
-            #emacsclient --eval "(if (not org-yaap-mode) (org-yaap-mode 1))";
-        fi
-        sleep 10;
-      done
     '')
     (pkgs.writeScriptBin "suspend-unless-render" ''
       #!/bin/sh
@@ -419,7 +379,6 @@
             "scratch_ranger" = "_󰴉";
             "scratch_musikcube" = "_";
             "scratch_btm" = "_";
-            "scratch_geary" = "_";
             "scratch_pavucontrol" = "_󰍰";
           };
           "on-click" = "activate";
