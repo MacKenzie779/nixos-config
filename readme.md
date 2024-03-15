@@ -129,6 +129,5 @@ Install and build home-manager configuration
 
 ```bash
 nix run home-manager/master --extra-experimental-features nix-command --extra-experimental-fetaures flakes -- switch --flake ./nixos-config#user
+reboot
 ```
-
-Reboot
