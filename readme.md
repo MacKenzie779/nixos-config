@@ -125,7 +125,12 @@ nixos-install --flake .#system
 reboot
 ```
 
-Install and build home-manager configuration
+Login as root and set user password
+
+```bash
+passwd user
+```
+Exit as root and login as user in order to install the home-manager configuration
 
 ```bash
 nix run home-manager/master --extra-experimental-features nix-command --extra-experimental-fetaures flakes -- switch --flake ./nixos-config#user
