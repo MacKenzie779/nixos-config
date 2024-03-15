@@ -85,20 +85,22 @@ mount /dev/disk/by-label/boot /mnt/boot
 ```
 
 ```bash
-swapon /dev/sda2
+swapon /dev/disk/by-label/swap
 ```
 
 ## Installing the NixOS configuration
 
+Enable flakes on the live system and install git
+
+```bash
+mkdir -p ~/.config/nix/
+echo experimental-features = nix-command flakes > ~/.config/nix/nix.conf
+nix profile install nixpkgs#git
+```
+
 ```bash
 mkdir -p /mnt/home/user/
 cd /mnt/home/user
-```
-
-Entering nix environment with installed git
-
-```bash
-nix-shell -p git
 ```
 
 Clone repository
@@ -106,19 +108,21 @@ Clone repository
 ```bash
 git clone "https://github.com/MacKenzie779/nixos-config.git"
 cd nixos-config
+nano flake.nix
 ```
 
 Generate hardware config for new system
 
 ```bash
-sudo nixos-generate-config --show-hardware-config > profiles/nixdesk/hardware-configuration.nix
+nixos-generate-config --root /mnt --show-hardware-config > profiles/nixdesk/hardware-configuration.nix
 git add .
 ```
 
-Rebuild system
+Install base system
 
 ```bash
-sudo nixos-rebuild switch --flake ./nixos-config#system
+nixos-install --flake .#system
+reboot
 ```
 
 Install and build home-manager configuration
