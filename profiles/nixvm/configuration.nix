@@ -69,7 +69,7 @@
     home-manager
   ];
 
-  virtualization.virtualbox.guest.enable = true;
+  virtualisation.virtualbox.guest.enable = true;
 
   # I use zsh btw
   environment.shells = with pkgs; [ zsh ];

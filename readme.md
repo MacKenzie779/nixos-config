@@ -95,16 +95,24 @@ mkdir -p /mnt/home/user/
 cd /mnt/home/user
 ```
 
-Clone config
+Entering nix environment with installed git
 
 ```bash
-nix-shell -p git --command "git clone https://github.com/MacKenzie779/nixos-config"
+nix-shell -p git
+```
+
+Clone repository
+
+```bash
+git clone "https://github.com/MacKenzie779/nixos-config.git"
+cd nixos-config
 ```
 
 Generate hardware config for new system
 
 ```bash
-sudo nixos-generate-config --show-hardware-config > /mnt/home/user/nixos-config/profiles/nixdesk/hardware-configuration.nix
+sudo nixos-generate-config --show-hardware-config > profiles/nixdesk/hardware-configuration.nix
+git add .
 ```
 
 Rebuild system
@@ -120,7 +128,3 @@ nix run home-manager/master --extra-experimental-features nix-command --extra-ex
 ```
 
 Reboot
-
-```bash
-reboot
-```
