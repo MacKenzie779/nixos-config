@@ -25,8 +25,8 @@
       exec-once = hyprctl setcursor '' + config.gtk.cursorTheme.name + " " + builtins.toString config.gtk.cursorTheme.size + ''
       exec-once = nm-applet
       exec-once = waybar
+      exec-once = hyprpaper
       exec-once = swayidle -w timeout 900 '${config.programs.swaylock.package}/bin/swaylock -f' timeout 1800 'suspend-unless-render' resume '${pkgs.hyprland}/bin/hyprctl dispatch dpms on' before-sleep "${config.programs.swaylock.package}/bin/swaylock -f"
-      exec = ~/.swaybg-stylix
 
       general {
         layout = master
@@ -46,8 +46,8 @@
         force_zero_scaling = true
       }
 
-      #env = WLR_DRM_DEVICES,/dev/dri/card1:/dev/dri/card0
-      #env = QT_QPA_PLATFORMTHEME,qt5ct
+      env = WLR_DRM_DEVICES,/dev/dri/card0
+      env = QT_QPA_PLATFORMTHEME,qt5ct
 
       input {
         kb_layout = de
@@ -125,6 +125,7 @@
       bind=SUPERSHIFT,F,fullscreen,0
 
       bind=SUPER,D,exec,rofi -modi run -show run
+      bind=SUPERSHIFT,P,exec,rofi -show p -modi p:rofi-power-menu
       bind=SUPER,E,exec,nautilus
 
       bind=SUPER,S,exec,hyprshot -m region --clipboard-only
@@ -222,6 +223,7 @@
     hyprland-protocols
     hyprpicker
     hyprshot
+    hyprpaper
     swayidle
     swaybg
     fnott
@@ -401,7 +403,7 @@
         clock = {
           "interval" = 1;
           "format" = "{:%a %Y-%m-%d %H:%M:%S }";
-          "timezone" = "Berlin/Europe";
+          "timezone" = "Europe/Berlin";
           "tooltip-format" = ''
             <big>{:%Y %B}</big>
             <tt><small>{calendar}</small></tt>'';

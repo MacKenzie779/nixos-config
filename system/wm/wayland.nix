@@ -18,4 +18,6 @@
       enable = true;
     };
   };
+
+  services.seatd.enable = true;
 }

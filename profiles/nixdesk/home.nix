@@ -18,7 +18,7 @@
     (./. + "../../../user/app/browser"+("/"+userSettings.browser)+".nix") # My default browser selected from flake
     ../../user/app/virtualization/virtualization.nix # Virtual machines
     ../../user/style/stylix.nix # Styling and themes for my apps
-    ../../user/hardware/bluetooth.nix # Bluetooth
+    #../../user/hardware/bluetooth.nix # Bluetooth
   ];
 
   home.stateVersion = "22.11"; # Please read the comment before changing.
@@ -54,6 +54,9 @@
     kdenlive
     ffmpeg
     spotify
+
+    marktext
+    rofi-power-menu
   ];
 
   xdg.enable = true;

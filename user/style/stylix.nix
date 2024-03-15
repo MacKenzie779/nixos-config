@@ -113,11 +113,10 @@ in
   home.file.".config/hypr/hyprpaper.conf".text = ''
     preload = ''+config.stylix.image+''
 
-    wallpaper = eDP-1,''+config.stylix.image+''
+    wallpaper = HDMI-A-2,''+config.stylix.image+''
 
-    wallpaper = HDMI-A-1,''+config.stylix.image+''
+    splash = false
 
-    wallpaper = DP-1,''+config.stylix.image+''
   '';
   home.packages = with pkgs; [
      qt5ct pkgs.libsForQt5.breeze-qt5
